@@ -1,6 +1,16 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
 import card from './components/card.vue';
+
+import { ref } from 'vue';
+
+const searchQuery = ref("")
+const animeList = ref([])
+// const handleSearch = async () => { 
+// 						animeList.value = await fetch(``)
+
+// 					}
+
 </script>
 
 <template>
