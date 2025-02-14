@@ -6,9 +6,6 @@ import { useAnimeListStore } from "./stores/animeList"
 import  Header from "./components/Header.vue"
 
 const searchQuery = ref("")
-// const animeList = ref([])
-// const loading = ref(false)
-// const error = ref('')
 const animeStore = useAnimeListStore()
 
 // async function handleSearch() {
@@ -43,30 +40,17 @@ const animeStore = useAnimeListStore()
 </script>
 
 <template>
-  <!-- <header class="text-lg font-fira p-5 overflow-hidden">
-    <h1 class=" text-gray-700 text-3xl text-center uppercase 
-                hover:text-gray-900 hover:scale-105 transition-all duration-500">
-      Mirai<b>DB</b>
-    </h1>
+	<Header></Header>
 
-	<form class="flex justify-center p-5 mx-auto max-w-[800px] w-full" @submit.prevent="animeStore.getAnime(searchQuery)">
-		<input 	type="search" name="" id="" placeholder="Search for an anime..."
-				class="w-[100%] p-3 mix-blend-difference rounded-xl hover:outline-3 focus:outline-3 focus:shadow-2xs
-					outline-slate-400 shadow-lg bg-slate-200" 
-				required v-model="searchQuery"
-		>
-	</form>
-
-  </header> -->
-<Header></Header>
-
-  <main class="p-7 flex flex-wrap gap-1 justify-center">
-	  <Card v-for="anime in animeStore.animeList" 
-	  			:anime="anime"
-	  />
-  </main>
+	<main class="p-7 flex flex-wrap gap-1 justify-center bg-slate-100 dark:bg-stone-800 transition-all duration-500 origni-left">
+		<Card v-for="anime in animeStore.animeList" 
+				:data="anime"
+		/>
+	</main>
 </template>
 
 <style scoped>
-
+html.dark {
+	color-scheme: dark;
+}
 </style>
