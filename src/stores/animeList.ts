@@ -4,11 +4,13 @@ export const useAnimeListStore = defineStore("animeList", {
     state: () => ({
         animeList: [],
         isLoading: false,
-        error: ""
+        category: "",
+        error: "",
     }),
     actions: {
         async getAnime(category:string, searchQuery:string){
                 this.isLoading = true
+                this.category = category
             try{
                 const response = await fetch(`https://api.jikan.moe/v4/${category}?q=${searchQuery}`)
                 if(!response.ok){

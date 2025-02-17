@@ -14,8 +14,8 @@ const toggleDark = useToggle(isDark)
     > 
         <Icon
             :icon="isDark? 'mdi:weather-night' : 'mdi:weather-sunny'"
-            width="28"
-            :color="isDark? 'white': 'black'"
+            width="24"
+            :color="isDark? '#878787': '#949996'"
             class=""
         />
     </button>

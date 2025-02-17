@@ -39,10 +39,10 @@ const animeStore = useAnimeListStore()
 
 </script>
 
-<template>
-	<Header></Header>
+<template> 
+	<Header class="sticky top-0 z-50"></Header>
 
-	<main class="p-7 flex flex-wrap gap-1 justify-center bg-slate-100 dark:bg-stone-800 transition-all duration-500 origni-left">
+	<main class="p-4 flex flex-wrap gap-2 lg:gap-4 2xl:gap-6 justify-center bg-stone-100 dark:bg-stone-900 transition-all duration-500">
 		<Card v-for="anime in animeStore.animeList" 
 				:data="anime"
 		/>
