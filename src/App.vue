@@ -5,7 +5,6 @@ import Card from './components/Card.vue';
 import { useAnimeListStore } from "./stores/animeList"
 import  Header from "./components/Header.vue"
 
-const searchQuery = ref("")
 const animeStore = useAnimeListStore()
 
 // async function handleSearch() {
@@ -42,9 +41,9 @@ const animeStore = useAnimeListStore()
 <template> 
 	<Header class="sticky top-0 z-50"></Header>
 
-	<main class="p-4 flex flex-wrap gap-2 lg:gap-4 2xl:gap-6 justify-center bg-stone-100 dark:bg-stone-900 transition-all duration-500">
+	<main class="p-5 flex flex-wrap gap-2 lg:gap-4 2xl:gap-6 justify-center bg-stone-100 dark:bg-stone-900 transition-all duration-500">
 		<Card v-for="anime in animeStore.animeList" 
-				:data="anime"
+				:data="anime" :category="animeStore.category"
 		/>
 	</main>
 </template>

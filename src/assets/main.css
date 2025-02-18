@@ -5,6 +5,7 @@
 
 @theme { 
 	--font-fira: "Fira Sans", "sans-serif";
+	--text-tiny: 0.6rem
 }
 
 @layer components { 

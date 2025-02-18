@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import { Icon } from '@iconify/vue'
 // import { RouterLink, RouterView } from 'vue-router'
 import { useAnimeListStore } from "../stores/animeList"
@@ -21,6 +21,11 @@ onMounted(() => {
 	selectCategory.value = categoryList[0].value
 	animeStore.getAnime(selectCategory.value, searchQuery.value)
 })
+// watch(selectCategory, async() => {
+// 	// if(selectCategory.value === 'characters') {
+// 		console.log(animeStore.getCharacterDetail(224257))
+// 	// }
+// })
 </script>
 
 <template>
@@ -37,10 +42,11 @@ onMounted(() => {
 		</div>
 		
 
-		<form class="flex text-base font-light justify-between gap-5 px-5 py-6 mx-auto max-w-[800px] w-full" @submit.prevent="animeStore.getAnime(selectCategory, searchQuery)">
+		<form class="flex text-xs lg:text-sm xl:text-base font-light justify-between gap-5 px-5 py-6 mx-auto max-w-[1080px] w-full" @submit.prevent="animeStore.getAnime(selectCategory, searchQuery)">
 			<select v-model="selectCategory" id="category" name="category" 
-					class="px-3 rounded-md shadow-md w-[20%] bg-stone-200 text-stone-700 dark:bg-stone-700 duration-200
-							dark:text-zinc-100  border-1 border-zinc-300 dark:border-zinc-600 hover:border-emerald-800 dark:hover:border-emerald-500 focus:outline-none active:border-1 "
+					class="px-3 rounded-md shadow-md bg-stone-200 text-stone-700 dark:bg-stone-700 duration-200
+							dark:text-zinc-100  border-1 border-zinc-300 dark:border-zinc-600 hover:border-emerald-800 dark:hover:border-emerald-500 focus:outline-none active:border-1"
+							@change.prevent="animeStore.getAnime(selectCategory, searchQuery)"
 			>
 				<option v-for="category in categoryList" :key="category.id" :value="category.value">
 					{{ category.name }}
