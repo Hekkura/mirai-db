@@ -1,11 +1,17 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
 import { RouterLink, RouterView } from 'vue-router'
-import Card from './components/Card.vue';
 import { useAnimeListStore } from "./stores/animeList"
+import Card from './components/Card.vue';
+import CardLoader from './components/CardLoader.vue';
 import  Header from "./components/Header.vue"
 
 const animeStore = useAnimeListStore()
+
+const handleSearch = async ({ category, query } : { category: string; query: string }) => {
+  await animeStore.getAnime(category, query);
+};
+
 
 // async function handleSearch() {
 // 	loading.value = true
@@ -41,10 +47,19 @@ const animeStore = useAnimeListStore()
 <template> 
 	<Header class="sticky top-0 z-50"></Header>
 
-	<main class="p-5 flex flex-wrap gap-2 lg:gap-4 2xl:gap-6 justify-center bg-stone-100 dark:bg-stone-900 transition-all duration-500">
-		<Card v-for="anime in animeStore.animeList" 
-				:data="anime" :category="animeStore.category"
-		/>
+	<main class="p-5 flex flex-wrap gap-2 lg:gap-4 2xl:gap-6 min-h-[100vh] justify-center bg-stone-100 dark:bg-stone-900 transition-all duration-500">
+		<!-- <CardLoader/> -->
+		<!-- <Suspense> -->
+			<!-- <template #default> -->
+				<Card v-for="anime in animeStore.animeList" 
+					:data="anime" :category="animeStore.category"
+				/>
+			<!-- </template> -->
+			<!-- <template #fallback>
+				<CardLoader/>
+			</template> -->
+		<!-- </Suspense> -->
+		
 	</main>
 </template>
 
