@@ -8,9 +8,9 @@ import  Header from "./components/Header.vue"
 
 const animeStore = useAnimeListStore()
 
-const handleSearch = async ({ category, query } : { category: string; query: string }) => {
-  await animeStore.getAnime(category, query);
-};
+// const handleSearch = async ({ category, query } : { category: string; query: string }) => {
+//   await animeStore.getAnime(category, query);
+// };
 
 
 // async function handleSearch() {
@@ -33,14 +33,15 @@ const handleSearch = async ({ category, query } : { category: string; query: str
 // }
 
 //DEBUG
-// watch(searchQuery, () => { 
+// watch(searchQu ery, () => { 
 // 	console.log(`Search Query : ${searchQuery.value}`)
 
 // })
 
-// watch(handleSearch, () => {
-// 	console.log(`HandleSearch : ${handleSearch}`)
-// })
+watch(animeStore, () => {
+	// console.log(animeStore.isLoading)
+	// console.log(typeof(animeStore.isLoading))
+})
 
 </script>
 
@@ -48,18 +49,10 @@ const handleSearch = async ({ category, query } : { category: string; query: str
 	<Header class="sticky top-0 z-50"></Header>
 
 	<main class="p-5 flex flex-wrap gap-2 lg:gap-4 2xl:gap-6 min-h-[100vh] justify-center bg-stone-100 dark:bg-stone-900 transition-all duration-500">
-		<!-- <CardLoader/> -->
-		<!-- <Suspense> -->
-			<!-- <template #default> -->
-				<Card v-for="anime in animeStore.animeList" 
-					:data="anime" :category="animeStore.category"
-				/>
-			<!-- </template> -->
-			<!-- <template #fallback>
-				<CardLoader/>
-			</template> -->
-		<!-- </Suspense> -->
-		
+		<CardLoader v-if="animeStore.isLoading" v-for="n in 20"/>
+		<Card v-for="anime in animeStore.animeList" 
+			:data="anime" :category="animeStore.category"
+		/>
 	</main>
 </template>
 

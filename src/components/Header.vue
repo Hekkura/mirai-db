@@ -5,6 +5,7 @@ import { Icon } from '@iconify/vue'
 import { useAnimeListStore } from "../stores/animeList"
 import type { Category } from "../../types/categories"
 import DarkMode from './icons/DarkMode.vue';
+import { useDebounceFn } from '@vueuse/core'
 
 const categoryList: Category[] = [
 	{ id: "1", name:"Anime", value:"anime" },
@@ -16,10 +17,20 @@ const searchQuery = ref("")
 const selectCategory = ref("")
 const animeStore = useAnimeListStore()
 
+const emit = defineEmits(['search']) 
+
+const debouncedSearch = useDebounceFn(() => {
+	animeStore.getAnime(
+						selectCategory.value as string, 
+						searchQuery.value as string
+						)
+}, 1000)
+
 onMounted(() => {
 	selectCategory.value = categoryList[0].value
 	animeStore.getAnime(selectCategory.value, searchQuery.value)
 })
+
 // watch(selectCategory, async() => {
 // 	// if(selectCategory.value === 'characters') {
 // 		console.log(animeStore.getCharacterDetail(224257))
@@ -40,19 +51,17 @@ onMounted(() => {
 			</button>
 		</div>
 		
-		<!-- lg:text-sm xl:text-base -->
 		<form class="flex text-base font-light justify-center gap-5 w-full border-b-1 border-zinc-300 dark:border-zinc-700 
 					md:border-0 md:px-5 md:py-6 mx-auto mb-8 md:m-1" 
-				@submit.prevent="animeStore.getAnime(selectCategory, searchQuery)"
+				@input="debouncedSearch()"
 		>
-		<!-- 	 -->
+
 			<select v-model="selectCategory" id="category" name="category" 
 					class="	px-3 py-4 md:shadow-md bg-stone-300 duration-200 text-stone-900 border-zinc-300
 							md:hover:border-emerald-800 dark:border-zinc-600  md:dark:hover:border-emerald-500 dark:bg-stone-700
 							md:rounded-sm  dark:text-zinc-100  md:border-1 md:py-2 focus:outline-none md:active:border-1"
-					@change.prevent="animeStore.getAnime(selectCategory, searchQuery)"
+					@change.prevent="debouncedSearch()"
 			>
-			<!--  -->
 				<option v-for="category in categoryList" :key="category.id" :value="category.value">
 					{{ category.name }}
 				</option>
@@ -63,12 +72,6 @@ onMounted(() => {
 						outline-stone-600  dark:text-white md:py-2" 
 					required v-model="searchQuery"
 			>
-			<!-- <button type="submit" class="px-3 rounded-xl bg-slate-800 text-white dark:bg-teal-500 dark:text-slate-900">
-				<Icon 
-					icon="mdi:magnify"
-					width="28"
-				/>
-			</button> -->
 		</form>
   </header>
 </template>

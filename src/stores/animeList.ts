@@ -9,6 +9,7 @@ export const useAnimeListStore = defineStore("animeList", {
     }),
     actions: {
         async getAnime(category:string, searchQuery:string){
+                // console.log("hit API get")
                 this.animeList = []
                 this.category = ""
 
