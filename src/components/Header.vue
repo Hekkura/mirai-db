@@ -24,11 +24,15 @@ const debouncedSearch = useDebounceFn(() => {
 						selectCategory.value as string, 
 						searchQuery.value as string
 						)
-}, 1000)
+}, 500)
+
+function emptySearch () {
+	searchQuery.value = ""
+}
 
 onMounted(() => {
 	selectCategory.value = categoryList[0].value
-	animeStore.getAnime(selectCategory.value, searchQuery.value)
+	animeStore.getTopAnime(selectCategory.value)
 })
 
 // watch(selectCategory, async() => {
@@ -39,6 +43,7 @@ onMounted(() => {
 </script>
 
 <template>
+
     <header class="font-fira overflow-hidden bg-stone-100 dark:bg-stone-900">
 		<div class="flex justify-between w-full p-3 border-b-1 border-zinc-300 dark:border-zinc-700">
 			<div></div>
@@ -52,15 +57,14 @@ onMounted(() => {
 		</div>
 		
 		<form class="flex text-base font-light justify-center gap-5 w-full border-b-1 border-zinc-300 dark:border-zinc-700 
-					md:border-0 md:px-5 md:py-6 mx-auto mb-8 md:m-1" 
-				@input="debouncedSearch()"
+					md:border-0 md:px-5 md:py-6 mx-auto mb-8 md:m-1" 	
+					@submit.prevent="debouncedSearch()"
 		>
-
 			<select v-model="selectCategory" id="category" name="category" 
 					class="	px-3 py-4 md:shadow-md bg-stone-300 duration-200 text-stone-900 border-zinc-300
 							md:hover:border-emerald-800 dark:border-zinc-600  md:dark:hover:border-emerald-500 dark:bg-stone-700
 							md:rounded-sm  dark:text-zinc-100  md:border-1 md:py-2 focus:outline-none md:active:border-1"
-					@change.prevent="debouncedSearch()"
+					@change.prevent="() => { animeStore.getTopAnime(selectCategory); emptySearch() }"
 			>
 				<option v-for="category in categoryList" :key="category.id" :value="category.value">
 					{{ category.name }}
@@ -71,6 +75,7 @@ onMounted(() => {
 						dark:border-zinc-600 md:hover:border-emerald-800 md:dark:hover:border-emerald-500 focus:outline-none md:active:border-1 
 						outline-stone-600  dark:text-white md:py-2" 
 					required v-model="searchQuery"
+					@input.prevent="debouncedSearch()"
 			>
 		</form>
   </header>
