@@ -2,30 +2,30 @@ import { defineStore } from "pinia";
 
 export const useAnimeListStore = defineStore("animeList", {
     state: () => ({
-        animeList: [],
+        animeList: [] as any[],
         isLoading: false,
+        isFetchingMore: false,
         category: "",
         error: "",
         cardCount: 0,
+        currentPage: 1,
+        loadingIds : new Set<number>()
     }),
     actions: {
         async getAnime(category:string, searchQuery:string){
-                console.log("hit API get")
                 this.animeList = []
-                this.category = ""
-
+                this.currentPage = 1
                 this.isLoading = true
                 this.category = category
                 try{
-                    const response = await fetch(`https://api.jikan.moe/v4/${category}?q=${searchQuery}`)
+                    const response = await fetch(`https://api.jikan.moe/v4/${category}?q=${searchQuery}?page=${this.currentPage}`)
                     if(!response.ok){
                         throw new Error (`HTTP Error : ${response.status}`)
                     }
                     const result = await response.json()
                     // console.log(result)
                     // console.log(result.data)
-                    
-                    this.animeList = result.data
+                    this.animeList.push(...result.data)
                     this.cardCount = result.pagination.current_page * result.pagination.items.per_page
                     console.log(this.cardCount)
                     // console.log(this.animeList)
@@ -38,17 +38,17 @@ export const useAnimeListStore = defineStore("animeList", {
         async getTopAnime(category:string){
             this.animeList = []
             this.category = ""
-
+            this.currentPage = 1
             this.isLoading = true
             this.category = category
 
             try{
-                const response = await fetch(`https://api.jikan.moe/v4/top/${category}`)
+                const response = await fetch(`https://api.jikan.moe/v4/top/${category}?page=${this.currentPage}`)
                 if(!response.ok){
                     throw new Error(`HTTP Error: ${response.status}`)
                 }
                 const result = await response.json()
-                this.animeList = result.data
+                this.animeList.push(...result.data)
                 this.cardCount = result.pagination.current_page * result.pagination.items.per_page
                 console.log(this.cardCount)
             } catch (err) {
@@ -59,31 +59,27 @@ export const useAnimeListStore = defineStore("animeList", {
 
         },
         async getMoreScroll(category:string, searchQuery:string) {
-            console.log("hit API get")
-            this.animeList = []
-            this.category = ""
 
+        },
+        async getMoreTopScroll(category:string, searchQuery:string) {
             this.isLoading = true
             this.category = category
+
             try{
-                const response = await fetch(`https://api.jikan.moe/v4/${category}?q=${searchQuery}`)
+                const response = await fetch(`https://api.jikan.moe/v4/top/${category}?page=${this.currentPage}`)
                 if(!response.ok){
-                    throw new Error (`HTTP Error : ${response.status}`)
+                    throw new Error(`HTTP Error: ${response.status}`)
                 }
                 const result = await response.json()
-                console.log(result)
-                console.log(result.data)
-                
-                this.animeList = result.data
+                this.animeList.push(...result.data)
                 this.cardCount = result.pagination.current_page * result.pagination.items.per_page
-                console.log(this.animeList)
                 console.log(this.cardCount)
-            } catch (err) { 
+            } catch (err) {
                 this.error = err instanceof Error ? err.message : String(err);
-            } finally { 
+            } finally {
                 this.isLoading = false
             }
-        }
+        },
     // async getCharacterDetail(id:any){
     //             this.isLoading=true
     //         try{

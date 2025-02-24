@@ -12,28 +12,10 @@ const capitalize = (word: any) => {
     return String(word).charAt(0).toUpperCase() + String(word).slice(1)
 }
 const animeStore = useAnimeListStore()
-// let displayResult = ref('')
-// console.log(`Image URL : ${props.data}`)
-
-// async function fetchCharacterDetail() { 
-//     try {
-//             const response = await fetch(`https://api.jikan.moe/v4/characters/${props.data?.mal_id}/anime`)
-//             if(!response.ok) {
-//                 throw new Error(`HTTP Error : ${response.status}`)
-//             }
-//             const result = await response.json()
-
-//             displayResult = await result.data[0].anime.title
-//             // return result.data[0]?.anime?.title
-//         } catch (err) {
-//             const error = err instanceof Error ? err.message : String(err);
-//         }
-// }
 
 onMounted(() => {
     if(animeStore.category === 'characters') {
-        // fetchCharacterDetail()
-        // console.log(displayResult.value)
+
     }
 })
 

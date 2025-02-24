@@ -1,12 +1,20 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue';
-import { useAnimeListStore } from "../stores/animeList"
 import Card from '../components/Card.vue';
 import CardLoader from '../components/CardLoader.vue';
+import { ref, watch } from 'vue';
+import { useAnimeListStore } from "../stores/animeList"
+import { useVirtualList } from '@vueuse/core';
+import { computed } from '@vue/reactivity';
 
 const animeStore = useAnimeListStore()
+const listItems = computed(()=> animeStore.animeList)
 
-
+const { list:virtualList, containerProps, wrapperProps } = useVirtualList(listItems, {
+    itemHeight: 400, 
+})
+console.log()
+console.log(containerProps)
+console.log(wrapperProps)
 </script>
 
 <template>
@@ -20,9 +28,15 @@ const animeStore = useAnimeListStore()
             leave-from-class="opacity-100"
             leave-to-class="opacity-0"
         >
-            <Card v-if="!animeStore.isLoading" v-for="anime in animeStore.animeList" 
-                :data="anime" :category="animeStore.category"
-            />
+        <div v-bind="containerProps">
+            <div v-bind="wrapperProps" class="grid grid-cols-4">
+                <Card v-if="!animeStore.isLoading" v-for="{ data, index } in virtualList" 
+                    :data="data" :key="index" :category="animeStore.category"
+                />
+            </div>
+
+        </div>
+            
         </TransitionGroup>
     </div>
 </template>
