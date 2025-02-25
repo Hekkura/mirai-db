@@ -10,15 +10,13 @@ const animeStore = useAnimeListStore()
 const listItems = computed(()=> animeStore.animeList)
 
 const { list:virtualList, containerProps, wrapperProps } = useVirtualList(listItems, {
-    itemHeight: 400, 
+    itemHeight: 100, 
 })
-console.log()
-console.log(containerProps)
-console.log(wrapperProps)
+
 </script>
 
 <template>
-    <div class="p-5 flex flex-wrap gap-2 lg:gap-4 2xl:gap-6 min-h-[100vh] justify-center bg-stone-100 dark:bg-stone-900 transition-all duration-500"> 
+    <div class="p-5 flex flex-wrap gap-2 lg:gap-5 2xl:gap-6 min-h-[100vh] justify-center bg-stone-100 dark:bg-stone-900 transition-all duration-500"> 
         <CardLoader v-if="animeStore.isLoading" v-for="n in 25"/>
         <TransitionGroup
             enter-active-class="transition-opacity ease-linear duration-300"
@@ -31,7 +29,7 @@ console.log(wrapperProps)
         <div v-bind="containerProps">
             <div v-bind="wrapperProps" class="grid grid-cols-4">
                 <Card v-if="!animeStore.isLoading" v-for="{ data, index } in virtualList" 
-                    :data="data" :key="index" :category="animeStore.category"
+                    :data="data" :key="index" :category="animeStore.category" class="gap-5"
                 />
             </div>
 

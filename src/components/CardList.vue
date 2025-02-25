@@ -10,7 +10,8 @@ const animeStore = useAnimeListStore()
 </script>
 
 <template>
-    <div class="p-5 flex flex-wrap gap-2 lg:gap-4 2xl:gap-6 min-h-[100vh] justify-center bg-stone-100 dark:bg-stone-900 transition-all duration-500"> 
+    <div class="p-5 flex flex-wrap gap-2 lg:gap-4 2xl:gap-6 min-h-[100vh] 
+                justify-center bg-stone-100 dark:bg-stone-900 transition-all duration-500"> 
         <CardLoader v-if="animeStore.isLoading" v-for="n in 25"/>
         <TransitionGroup
             enter-active-class="transition-opacity ease-linear duration-300"

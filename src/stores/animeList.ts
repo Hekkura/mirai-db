@@ -9,7 +9,8 @@ export const useAnimeListStore = defineStore("animeList", {
         error: "",
         cardCount: 0,
         currentPage: 1,
-        loadingIds : new Set<number>()
+        loadingIds : new Set<number>(),
+        query: "",
     }),
     actions: {
         async getAnime(category:string, searchQuery:string){
@@ -17,6 +18,7 @@ export const useAnimeListStore = defineStore("animeList", {
                 this.currentPage = 1
                 this.isLoading = true
                 this.category = category
+                this.query = searchQuery
                 try{
                     const response = await fetch(`https://api.jikan.moe/v4/${category}?q=${searchQuery}?page=${this.currentPage}`)
                     if(!response.ok){
@@ -41,6 +43,7 @@ export const useAnimeListStore = defineStore("animeList", {
             this.currentPage = 1
             this.isLoading = true
             this.category = category
+            this.query = ""
 
             try{
                 const response = await fetch(`https://api.jikan.moe/v4/top/${category}?page=${this.currentPage}`)
@@ -58,22 +61,35 @@ export const useAnimeListStore = defineStore("animeList", {
             }
 
         },
-        async getMoreScroll(category:string, searchQuery:string) {
-
-        },
-        async getMoreTopScroll(category:string, searchQuery:string) {
+        async getMoreScroll() {
             this.isLoading = true
-            this.category = category
-
+            // this.category = category
             try{
-                const response = await fetch(`https://api.jikan.moe/v4/top/${category}?page=${this.currentPage}`)
+                const response = await fetch(`https://api.jikan.moe/v4/${this.category}?q=${this.query}?page=${this.currentPage}`)
+                if(!response.ok){
+                    throw new Error (`HTTP Error : ${response.status}`)
+                }
+                const result = await response.json()
+                this.animeList.push(...result.data)
+                this.cardCount = result.pagination.current_page * result.pagination.items.per_page
+            } catch (err) { 
+                this.error = err instanceof Error ? err.message : String(err);
+            } finally { 
+                this.isLoading = false
+            }
+        },
+        async getMoreTopScroll() {
+            this.isLoading = true
+            // this.category = category
+            this.query = ""
+            try{
+                const response = await fetch(`https://api.jikan.moe/v4/top/${this.category}?page=${this.currentPage}`)
                 if(!response.ok){
                     throw new Error(`HTTP Error: ${response.status}`)
                 }
                 const result = await response.json()
                 this.animeList.push(...result.data)
                 this.cardCount = result.pagination.current_page * result.pagination.items.per_page
-                console.log(this.cardCount)
             } catch (err) {
                 this.error = err instanceof Error ? err.message : String(err);
             } finally {

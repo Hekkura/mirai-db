@@ -4,6 +4,9 @@ import { RouterLink, RouterView } from 'vue-router'
 import { useAnimeListStore } from "./stores/animeList"
 import  Header from "./components/Header.vue"
 import CardList from './components/CardList.vue';
+import CardListVirtualTEST from './components/CardListVirtualTEST.vue';
+import CardListVirtualTest2 from './components/CardListVirtualTest2.vue';
+import CardListInfiniteTest from './components/CardListInfiniteTest.vue';
 
 const animeStore = useAnimeListStore()
 
@@ -26,6 +29,12 @@ watch(animeStore, () => {
 			:data="anime" :category="animeStore.category"
 		/> -->
 		<CardList class=""/>
+		<!-- <CardListInfiniteTest/> -->
+
+
+		<!-- FAIL -->
+		<!-- <CardListVirtualTEST/> -->
+		 <!-- <CardListVirtualTest2/> -->
 	</main>
 </template>
 
