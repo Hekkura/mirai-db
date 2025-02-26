@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { ref, watch, computed, onMounted } from 'vue';
-import { useAnimeListStore } from "../stores/animeList"
+import { useAnimeListStore } from "../../stores/animeList"
 import { useWindowSize, useVirtualList } from '@vueuse/core';
-import Card from '../components/Card.vue';
-import CardLoader from '../components/CardLoader.vue';
+import Card from '../Card.vue';
+import CardLoader from '../CardLoader.vue';
 
 const { width } = useWindowSize();
 const containerRef = ref(null)
