@@ -3,7 +3,7 @@ import { useAnimeListStore } from "../stores/animeList"
 </script>
 
 <template>
-	<div class="w-[140px] lg:w-[200px] xl:w-[230px] animate-pulse">
+	<div class="w-[170px] lg:w-[200px] xl:w-[220px] animate-pulse">
             <div alt="Image Loader"
                 class="aspect-3/4 w-full object-cover rounded-lg bg-stone-300 dark:bg-stone-700">
             </div>

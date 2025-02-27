@@ -22,7 +22,8 @@ onMounted(() => {
 </script>
 
 <template>
-	<div class="w-[140px] lg:w-[200px] xl:w-[230px]">
+	<div class="w-[170px] lg:w-[200px] xl:w-[220px] 
+                h-[310px] lg:h-[350px] xl:h-[390px]">
         <a href="#" target="_blank" class="flex flex-col pb-4">
             <img :src="props.data.images.webp.image_url" alt="Image Placeholder"
                 class="aspect-3/4 w-full object-cover rounded-lg"
